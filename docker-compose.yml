@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+    study-uber-fx:
+        container_name: api
+        platform: linux/amd64
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        volumes:
+            - ./configs/config.yaml:/app/configs/config.yaml
+        ports:
+            - "8080:8080"
