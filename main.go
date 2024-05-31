@@ -1,20 +1,15 @@
 package main
 
 import (
-	"log"
-	"flag"
+	"net/http"
 
-	"github.com/artemxgod/study/study-uber-fx/configs"
+	"github.com/artemxgod/study/study-uber-fx/internal/server"
+	"go.uber.org/fx"
 )
 
 func main() {
-	var configPath string
-	flag.StringVar(&configPath, "config-path", "./configs/config.yaml", "Path to config file")
-	flag.Parse()
-
-	config, err := configs.ReadConfig(configPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println(config.ServiceName)
+	fx.New(
+		fx.Provide(server.NewHTTPServer),
+		fx.Invoke(func(s *http.Server) {}),
+	).Run()
 }
